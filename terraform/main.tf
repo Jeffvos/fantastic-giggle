@@ -142,7 +142,7 @@ resource "aws_instance" "web" {
 }
 
 resource "aws_s3_bucket" "s3_bucket" {
-  bucket = "s3_bucket_for_data"
+  bucket = "s3_bucket_for_data_2022_sample"
   tags = {
     Name    = "s3_bucket"
     Purpose = "sample code"
