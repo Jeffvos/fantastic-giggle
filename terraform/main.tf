@@ -141,41 +141,52 @@ resource "aws_instance" "web" {
   }
 }
 
-resource "aws_s3_bucket" "s3_bucket" {
-  bucket = "awesome_bucket_${random_id.radom_idness.hex}"
+# resource "aws_s3_bucket" "s3_bucket" {
+#   bucket = "awesome_bucket_${random_id.radom_idness.hex}"
+#   tags = {
+#     Name    = "s3_bucket"
+#     Purpose = "sample code"
+#   }
+# }
+
+# resource "aws_s3_bucket_acl" "s3_bucket_acl" {
+#   bucket = aws_s3_bucket.s3_bucket.id
+#   acl    = "private"
+# }
+
+# resource "aws_security_group" "new_security_group" {
+#   name        = "web_ser_inbound"
+#   description = "allow inbound traffic on tcp 443"
+#   vpc_id      = aws_vpc.vpc.id
+#   ingress = [
+#     {
+#     cidr_blocks = ["0.0.0.0/0"]
+#     description = "allow 443 tcp"
+#     from_port   = 443
+#     protocol    = "tcp"
+#     to_port     = 443
+#     self = false
+#     ipv6_cidr_blocks = []
+#     prefix_list_ids = []
+#     security_groups = []
+#     }
+#   ]
+#   tags = {
+#     "Name" = "ser inbound"
+#   }
+# }
+
+# resource "random_id" "radom_idness" {
+#   byte_length = 16
+# }
+
+resource "aws_subnet" "tf-subnet" {
+  vpc_id                  = aws_vpc.vpc.id
+  cidr_block              = "10.0.250.0/24"
+  availability_zone       = "us-east-a"
+  map_public_ip_on_launch = true
   tags = {
-    Name    = "s3_bucket"
-    Purpose = "sample code"
+    "Name" = "sub-public-us-east-1a"
   }
-}
 
-resource "aws_s3_bucket_acl" "s3_bucket_acl" {
-  bucket = aws_s3_bucket.s3_bucket.id
-  acl    = "private"
-}
-
-resource "aws_security_group" "new_security_group" {
-  name        = "web_ser_inbound"
-  description = "allow inbound traffic on tcp 443"
-  vpc_id      = aws_vpc.vpc.id
-  ingress = [
-    {
-    cidr_blocks = ["0.0.0.0/0"]
-    description = "allow 443 tcp"
-    from_port   = 443
-    protocol    = "tcp"
-    to_port     = 443
-    self = false
-    ipv6_cidr_blocks = []
-    prefix_list_ids = []
-    security_groups = []
-    }
-  ]
-  tags = {
-    "Name" = "ser inbound"
-  }
-}
-
-resource "random_id" "radom_idness" {
-  byte_length = 16
 }
