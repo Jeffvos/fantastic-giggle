@@ -153,3 +153,19 @@ resource "aws_s3_bucket_acl" "s3_bucket_acl" {
   bucket = aws_s3_bucket.s3_bucket.id
   acl    = "private"
 }
+
+resource "aws_security_group" "new_security_group" {
+  name        = "web_ser_inbound"
+  description = "allow inbound traffic on tcp 443"
+  vpc_id      = aws_vpc.vpc.id
+  ingress = {
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "allow 443 tcp"
+    from_port   = 443
+    protocol    = "tcp"
+    to_port     = 443
+  }
+  tags = {
+    "Name" = "ser inbound"
+  }
+}
