@@ -37,7 +37,7 @@ variable "variables_sub_cidr" {
 variable "variable_sub_az" {
   description = "AZ used var subnet"
   type        = string
-  default     = "us-east-1a"
+  default     = "us-east-1"
 }
 
 variable "var_sub_auto_ip" {
@@ -46,6 +46,6 @@ variable "var_sub_auto_ip" {
   default     = true
 }
 variable "environment" {
-  type = string
+  type    = string
   default = "PROD"
 }
