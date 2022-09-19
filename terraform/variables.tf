@@ -27,3 +27,18 @@ variable "public_subnets" {
     "public_subnet_3" = 3
   }
 }
+
+variable "variables_sub_cidr" {
+  description = "Cidr block fro the var subnet"
+  type = string
+}
+
+variable "variable_sub_az" {
+  description = "AZ used var subnet"
+  type = string
+}
+
+variable "var_sub_auto_ip" {
+  description = "automatic ip assignment for var subnet"
+  type = bool
+}
