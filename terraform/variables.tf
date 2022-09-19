@@ -30,18 +30,22 @@ variable "public_subnets" {
 
 variable "variables_sub_cidr" {
   description = "Cidr block fro the var subnet"
-  type = string
-  default = "10.0.202.0/24"
+  type        = string
+  default     = "10.0.202.0/24"
 }
 
 variable "variable_sub_az" {
   description = "AZ used var subnet"
-  type = string
-  default = "us-east-1a"
+  type        = string
+  default     = "us-east-1a"
 }
 
 variable "var_sub_auto_ip" {
   description = "automatic ip assignment for var subnet"
-  type = bool
-  default = true
+  type        = bool
+  default     = true
+}
+variable "environment" {
+  type = string
+  default = "PROD"
 }

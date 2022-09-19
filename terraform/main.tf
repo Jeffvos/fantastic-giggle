@@ -5,6 +5,12 @@ provider "aws" {
 data "aws_availability_zones" "available" {}
 data "aws_region" "current" {}
 
+locals {
+  team        = "api_mgmt_dev"
+  application = "api_corp"
+  server_name = "fantastic-giggle-${var.environment}-api-${var.variable_sub_az}"
+}
+
 resource "aws_vpc" "vpc" {
   cidr_block = var.vpc_cidr
   tags = {
@@ -188,5 +194,4 @@ resource "aws_subnet" "tf-subnet" {
   tags = {
     "Name" = "sub-public-${var.variable_sub_az}"
   }
-
 }
