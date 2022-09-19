@@ -142,7 +142,7 @@ resource "aws_instance" "web" {
 }
 
 resource "aws_s3_bucket" "s3_bucket" {
-  bucket = "s3_bucket_for_data_fantastic_giggle"
+  bucket = "awesome_bucket_${random_id.radom_idness.hex}"
   tags = {
     Name    = "s3_bucket"
     Purpose = "sample code"
@@ -158,14 +158,24 @@ resource "aws_security_group" "new_security_group" {
   name        = "web_ser_inbound"
   description = "allow inbound traffic on tcp 443"
   vpc_id      = aws_vpc.vpc.id
-  ingress = {
+  ingress = [
+    {
     cidr_blocks = ["0.0.0.0/0"]
     description = "allow 443 tcp"
     from_port   = 443
     protocol    = "tcp"
     to_port     = 443
-  }
+    self = false
+    ipv6_cidr_blocks = []
+    prefix_list_ids = []
+    security_groups = []
+    }
+  ]
   tags = {
     "Name" = "ser inbound"
   }
+}
+
+resource "random_id" "radom_idness" {
+  byte_length = 16
 }
