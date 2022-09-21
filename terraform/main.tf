@@ -1,3 +1,8 @@
+/*
+Sample terraform code for aws deployments
+JeffVos
+*/
+
 provider "aws" {
   region = "us-east-1"
 }
