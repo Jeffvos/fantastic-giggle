@@ -146,6 +146,10 @@ resource "aws_instance" "web_server" {
     private_key = tls_private_key.generated.priv_key_pem
     host        = self.public_ip
   }
+  provisioner "local-exec" {
+    command = "chmod 600 ${local_file.priv_key_pem}"
+  }
+
   tags = {
     Name  = local.server_name
     Owner = local.team
