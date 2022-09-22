@@ -135,23 +135,39 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_instance" "web_server" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = "t2-micro"
-  subnet_id     = aws_subnet.public_subnets["public_subnet_1"].id
+  ami                         = data.aws_ami.ubuntu.id
+  instance_type               = "t2-micro"
+  subnet_id                   = aws_subnet.public_subnets["public_subnet_1"].id
+  security_groups             = [aws_security_group.vpc-ping.id, aws_security_group.ingress-ssh, aws_security_group.vpc-web.id]
+  associate_public_ip_address = true
+  key_name                    = aws_key_pair.generated_key.key_name
+  connection {
+    user        = "ubuntu"
+    private_key = tls_private_key.generated.priv_key_pem
+    host        = self.public_ip
+  }
   tags = {
     Name  = local.server_name
     Owner = local.team
     App   = local.application
   }
 }
-
 resource "aws_instance" "web" {
-  ami                    = "ami-05f3141013eebdc12"
-  instance_type          = "t2.micro"
-  subnet_id              = aws_subnet.public_subnets["public_subnet_2"].id
-  vpc_security_group_ids = ["<SECURITY_GROUP"]
+  ami                         = data.aws_ami.ubuntu.id
+  instance_type               = "t2-micro"
+  subnet_id                   = aws_subnet.public_subnets["public_subnet_2"].id
+  security_groups             = [aws_security_group.vpc-ping.id, aws_security_group.ingress-ssh, aws_security_group.vpc-web.id]
+  associate_public_ip_address = true
+  key_name                    = aws_key_pair.generated_key.key_name
+  connection {
+    user        = "ubuntu"
+    private_key = tls_private_key.generated.priv_key_pem
+    host        = self.public_ip
+  }
   tags = {
-    "Terraform" = "true"
+    Name  = local.server_name
+    Owner = local.team
+    App   = local.application
   }
 }
 
@@ -280,9 +296,38 @@ resource "aws_security_group" "vpc-web" {
     from_port        = 0
     ipv6_cidr_blocks = []
     prefix_list_ids  = []
-    protocol         = "value"
+    protocol         = "-1"
     security_groups  = []
     self             = false
     to_port          = 0
   }]
+}
+
+resource "aws_security_group" "vpc-ping" {
+  name        = "vpc-ping"
+  vpc_id      = aws_vpc.vpc.id
+  description = "ICMP ping"
+  ingress = [{
+    cidr_blocks      = ["0.0.0.0/0"]
+    from_port        = -1
+    to_port          = -1
+    protocol         = "icmp"
+    self             = false
+    ipv6_cidr_blocks = []
+    prefix_list_ids  = []
+    security_groups  = []
+    description      = "allow icmp ping"
+  }]
+  egress = [{
+    description      = "allow outbound"
+    cidr_blocks      = ["0.0.0.0/0"]
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    self             = false
+    ipv6_cidr_blocks = []
+    prefix_list_ids  = []
+    security_groups  = []
+  }]
+
 }
