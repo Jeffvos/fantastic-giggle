@@ -143,7 +143,7 @@ resource "aws_instance" "web_server" {
   key_name                    = aws_key_pair.generated_key.key_name
   connection {
     user        = "ubuntu"
-    private_key = tls_private_key.generated.priv_key_pem
+    private_key = tls_private_key.generated.private_key_pem
     host        = self.public_ip
   }
   provisioner "local-exec" {
@@ -154,7 +154,7 @@ resource "aws_instance" "web_server" {
     inline = [
       "sudo rm -rf /tmp",
       "sudo git clone https://github.com/Jeffvos/fantastic-giggle.git /tmp",
-      "sudo sh /tmp/assets/setup-web.sh"
+      "sudo sh /tmp/assets/setup-web.sh" 
     ]
   }
 
