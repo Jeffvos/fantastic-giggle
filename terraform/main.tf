@@ -212,3 +212,40 @@ resource "local_file" "priv_key_pem" {
   content  = tls_private_key.generated.private_key_pem
   filename = "MyAWSKey.pem"
 }
+
+resource "aws_key_pair" "generated_key" {
+  key_name   = "myAWSKey"
+  public_key = tls_private_key.generated.public_key_openssh
+  lifecycle {
+    ignore_changes = [key_name]
+  }
+}
+#not for prod
+resource "aws_security_group" "ingress-ssh" {
+  name   = "allow-all-ssh"
+  vpc_id = aws_vpc.vpc.id
+  ingress = [{
+    cidr_blocks = ["0.0.0.0/0"]
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    self = false
+    ipv6_cidr_blocks = []
+    prefix_list_ids = []
+    security_groups = []
+    description = "allow ssh from all ips "
+  }]
+  egress = [{
+    description = "default change"
+    cidr_blocks = ["0.0.0.0/0"]
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    self = false
+    ipv6_cidr_blocks = []
+    prefix_list_ids = []
+    security_groups = []
+    
+  }]
+
+}
