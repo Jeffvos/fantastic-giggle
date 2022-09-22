@@ -225,27 +225,64 @@ resource "aws_security_group" "ingress-ssh" {
   name   = "allow-all-ssh"
   vpc_id = aws_vpc.vpc.id
   ingress = [{
-    cidr_blocks = ["0.0.0.0/0"]
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    self = false
+    cidr_blocks      = ["0.0.0.0/0"]
+    from_port        = 22
+    to_port          = 22
+    protocol         = "tcp"
+    self             = false
     ipv6_cidr_blocks = []
-    prefix_list_ids = []
-    security_groups = []
-    description = "allow ssh from all ips "
+    prefix_list_ids  = []
+    security_groups  = []
+    description      = "allow ssh from all ips "
   }]
   egress = [{
-    description = "default change"
-    cidr_blocks = ["0.0.0.0/0"]
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    self = false
+    description      = "default change"
+    cidr_blocks      = ["0.0.0.0/0"]
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    self             = false
     ipv6_cidr_blocks = []
-    prefix_list_ids = []
-    security_groups = []
-    
-  }]
+    prefix_list_ids  = []
+    security_groups  = []
 
+  }]
+}
+resource "aws_security_group" "vpc-web" {
+  name        = "vpc-web-${terraform.workspace}"
+  vpc_id      = aws_vpc.vpc.id
+  description = "webtraffic"
+  ingress = [{
+    cidr_blocks      = ["0.0.0.0/0"]
+    from_port        = 80
+    to_port          = 80
+    protocol         = "tcp"
+    self             = false
+    ipv6_cidr_blocks = []
+    prefix_list_ids  = []
+    security_groups  = []
+    description      = "web traffic "
+    },
+    {
+      cidr_blocks      = ["0.0.0.0/0"]
+      from_port        = 443
+      to_port          = 443
+      protocol         = "tcp"
+      self             = false
+      ipv6_cidr_blocks = []
+      prefix_list_ids  = []
+      security_groups  = []
+      description      = " ssl web traffic "
+  }]
+  egress = [{
+    cidr_blocks      = ["0.0.0.0/0"]
+    description      = "allow all ip and ports outbound "
+    from_port        = 0
+    ipv6_cidr_blocks = []
+    prefix_list_ids  = []
+    protocol         = "value"
+    security_groups  = []
+    self             = false
+    to_port          = 0
+  }]
 }
