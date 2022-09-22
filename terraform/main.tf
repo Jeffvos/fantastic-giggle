@@ -151,6 +151,11 @@ resource "aws_instance" "web_server" {
     Owner = local.team
     App   = local.application
   }
+  lifecycle {
+    ignore_changes = [
+      security_groups
+    ]
+  }
 }
 resource "aws_instance" "web" {
   ami                         = data.aws_ami.ubuntu.id
