@@ -150,6 +150,14 @@ resource "aws_instance" "web_server" {
     command = "chmod 600 ${local_file.priv_key_pem}"
   }
 
+  provisioner "remote-exec" {
+    inline = [
+      "sudo rm -rf /tmp",
+      "sudo git clone https://github.com/Jeffvos/fantastic-giggle.git /tmp",
+      "sudo sh /tmp/assets/setup-web.sh"
+    ]
+  }
+
   tags = {
     Name  = local.server_name
     Owner = local.team
