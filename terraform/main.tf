@@ -404,12 +404,12 @@ output "public_dns" {
 }
 
 module "server_subnet_1" {
-  source    = "./modules/web_server"
-  ami       = data.aws_ami.ubuntu.id
-  key_name = aws_key_pair.generated_key.key_name
-  user = "ubuntu"
+  source      = "./modules/web_server"
+  ami         = data.aws_ami.ubuntu.id
+  key_name    = aws_key_pair.generated_key.key_name
+  user        = "ubuntu"
   private_key = tls_private_key.generated.private_key_pem
-  subnet_id = aws_subnet.public_subnets["public_subnet_1"].id
+  subnet_id   = aws_subnet.public_subnets["public_subnet_1"].id
   security_groups = [
     aws_security_group.vpc-ping.id,
     aws_security_group.ingress-ssh.id,
@@ -423,4 +423,20 @@ output "publice_ip_server_subnet_1" {
 
 output "public_dns_server_subnet_1" {
   value = module.server_subnet_1.public_dns
+}
+
+module "autoscaling" {
+  source  = "terraform-aws-modules/autoscaling/aws"
+  version = "6.5.2"
+  name    = "asg"
+  vpc_zone_identifier = [
+    aws_subnet.private_subnets["private_subnet_1"].id,
+    aws_subnet.private_subnets["private_subnet_2"].id,
+    aws_subnet.private_subnets["private_subnet_3"].id
+  ]
+  min_size         = 0
+  max_size         = 1
+  desired_capacity = 1
+  image_id         = data.aws_ami.ubuntu.id
+  instance_type    = "t3.micro"
 }
