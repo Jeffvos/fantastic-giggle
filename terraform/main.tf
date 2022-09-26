@@ -439,4 +439,7 @@ module "autoscaling" {
   desired_capacity = 1
   image_id         = data.aws_ami.ubuntu.id
   instance_type    = "t3.micro"
+  autoscaling_group_tags = {
+    Name = "web ec2"
+  }
 }
