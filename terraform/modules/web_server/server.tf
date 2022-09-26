@@ -36,7 +36,7 @@ resource "aws_instance" "web" {
   provisioner "remote-exec" {
     inline = [
       "sudo rm -rf /tmp",
-      "sudo git clone https://githuburl" / tmp,
+      "sudo git clone https://githuburl / tmp"
     ]
   }
   tags = {
