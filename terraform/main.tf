@@ -447,3 +447,14 @@ module "autoscaling" {
 output "asg_group_size" {
   value = module.autoscaling.autoscaling_group_max_size
 }
+
+module "s3-bucket" {
+  source  = "terraform-aws-modules/s3-bucket/aws"
+  version = "2.11.1"
+
+}
+
+output "s3-bucket-name" {
+  value = module.s3-bucket.s3_bucket_bucket_domain_name
+
+}
