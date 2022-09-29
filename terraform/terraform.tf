@@ -1,4 +1,11 @@
 terraform {
+  backend "remote" {
+    hostname     = "app.terraform.io"
+    organization = "vos-inc"
+    workspaces {
+      name = "fantastic-giggle"
+    }
+  }
   required_version = ">=1.2.0"
   required_providers {
     aws = {
