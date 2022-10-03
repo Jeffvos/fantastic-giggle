@@ -22,3 +22,8 @@ output "public_ip_web" {
   description = "this is the public ip of the ec2"
   value       = aws_instance.web_server.public_ip
 }
+
+output "ec2_arn" {
+  value     = aws_instance.web_server.arn
+  sensitive = true
+}
