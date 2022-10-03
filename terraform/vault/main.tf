@@ -8,4 +8,5 @@ data "vault_generic_secret" "saved_secret" {
 }
 output "phone_number" {
   value= data.vault_generic_secret.saved_secret.phone_number
+  sensitive = true
 }
