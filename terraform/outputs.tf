@@ -18,7 +18,7 @@ output "vpc_info" {
   value       = "${aws_vpc.vpc.tags.Environment} vpc has an id of ${aws_vpc.vpc.id}"
 }
 
-output "public_ip" {
+output "public_ip_web" {
   description = "this is the public ip of the ec2"
   value       = aws_instance.web_server.public_ip
 }
