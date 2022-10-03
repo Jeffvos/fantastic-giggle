@@ -20,5 +20,5 @@ output "vpc_info" {
 
 output "public_ip" {
   description = "this is the public ip of the ec2"
-  value = aws_instance.web_server.public_ip
+  value       = aws_instance.web_server.public_ip
 }
