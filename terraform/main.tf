@@ -169,9 +169,9 @@ resource "aws_instance" "web_server" {
   }
 }
 resource "aws_instance" "web" {
-  ami                         = data.aws_ami.ubuntu.id
-  instance_type               = "t2-micro"
-  subnet_id                   = aws_subnet.public_subnets["public_subnet_2"].id
+  ami           = data.aws_ami.ubuntu.id
+  instance_type = "t2-micro"
+  subnet_id     = aws_subnet.public_subnets["public_subnet_2"].id
   #security_groups             = [aws_security_group.vpc-ping.id, aws_security_group.ingress-ssh, aws_security_group.vpc-web.id]
   associate_public_ip_address = true
   key_name                    = aws_key_pair.generated_key.key_name
