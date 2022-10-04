@@ -505,3 +505,31 @@ resource "aws_iam_policy" "poli" {
     ]
   })
 }
+
+resource "aws_security_group" "main" {
+  name   = "core-sg"
+  vpc_id = aws_vpc.vpc.id
+
+  ingress = [{
+    cidr_blocks      = ["0.0.0.0/0"]
+    description      = "443"
+    from_port        = 443
+    ipv6_cidr_blocks = []
+    prefix_list_ids  = []
+    protocol         = "tcp"
+    security_groups  = []
+    self             = false
+    to_port          = 443
+    },
+    {
+      cidr_blocks      = ["0.0.0.0/0"]
+      description      = "80"
+      from_port        = 80
+      ipv6_cidr_blocks = []
+      prefix_list_ids  = []
+      protocol         = "tcp"
+      security_groups  = []
+      self             = false
+      to_port          = 80
+  }]
+}
