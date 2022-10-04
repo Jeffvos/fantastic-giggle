@@ -475,7 +475,7 @@ module "vpc" {
 }
 
 resource "aws_subnet" "list_sub" {
-  vpc_id = aws_vpc.vpc.id
-  cidr_block = var.ip["prod"]
+  vpc_id            = aws_vpc.vpc.id
+  cidr_block        = var.ip["prod"]
   availability_zone = var.us-east-1-azs[0]
 }
