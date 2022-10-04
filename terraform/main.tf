@@ -483,3 +483,25 @@ resource "aws_subnet" "list_sub" {
     "Name" = each.key
   }
 }
+
+data "aws_s3_bucket" "data_bucket" {
+  bucket = "my-data-bucket-jv"
+}
+
+resource "aws_iam_policy" "poli" {
+  description = "bucket_policy"
+  name        = "bucket_policy"
+  policy = jsonencode({
+    "version" : "2012-10-17",
+    "statement" : [
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "s3:Get*",
+          "s3:List*"
+        ],
+        "Resource" : "${data.aws_s3_bucket.data_bucket.arn}"
+      }
+    ]
+  })
+}
