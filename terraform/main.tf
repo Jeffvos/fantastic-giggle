@@ -523,5 +523,10 @@ resource "aws_security_group" "main" {
       self             = false
       to_port          = ingress.value.port
     }]
+
   }
+  lifecycle {
+    create_before_destroy = true
+  }
+
 }
