@@ -411,7 +411,8 @@ module "server_subnet_1" {
   security_groups = [
     aws_security_group.vpc-ping.id,
     aws_security_group.ingress-ssh.id,
-    aws_security_group.vpc-web.id
+    aws_security_group.vpc-web.id,
+    aws_security_group.main.id
   ]
 }
 
