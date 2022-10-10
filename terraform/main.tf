@@ -20,7 +20,7 @@ resource "aws_vpc" "vpc" {
   cidr_block = var.vpc_cidr
   tags = {
     Name        = var.vpc_name
-    Environment = "demo_environment"
+    Environment = var.environment
     Terraform   = "true"
     Region      = data.aws_region.current.name
   }
@@ -246,7 +246,7 @@ resource "local_file" "priv_key_pem" {
 }
 
 resource "aws_key_pair" "generated_key" {
-  key_name   = "myAWSKey"
+  key_name   = "myAWSKey${var.environment}"
   public_key = tls_private_key.generated.public_key_openssh
   lifecycle {
     ignore_changes = [key_name]
@@ -527,6 +527,7 @@ resource "aws_security_group" "main" {
   }
   lifecycle {
     create_before_destroy = true
+
   }
 
 }

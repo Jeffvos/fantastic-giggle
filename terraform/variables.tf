@@ -107,3 +107,9 @@ variable "web_ingress" {
     }
   }
 }
+variable "environment" {
+  type        = string
+  description = "infra env"
+  default     = "test"
+
+}
