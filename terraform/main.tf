@@ -508,7 +508,7 @@ resource "aws_iam_policy" "poli" {
 }
 
 resource "aws_security_group" "main" {
-  name   = "core-sg"
+  name   = "core-sg-global"
   vpc_id = aws_vpc.vpc.id
   dynamic "ingress" {
     for_each = var.web_ingress
