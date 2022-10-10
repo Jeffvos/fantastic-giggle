@@ -506,30 +506,18 @@ resource "aws_iam_policy" "poli" {
   })
 }
 
-locals {
-  ingress_rules = [{
-    port        = 443
-    description = "443"
-    },
-    {
-      port        = 80
-      description = "80"
-    }
-  ]
-}
-
 resource "aws_security_group" "main" {
   name   = "core-sg"
   vpc_id = aws_vpc.vpc.id
   dynamic "ingress" {
-    for_each = local.ingress_rules
+    for_each = var.web_ingress
     content = [{
-      cidr_blocks      = ["0.0.0.0/0"]
+      cidr_blocks      = ingress.value.cidr_blocks
       description      = ingress.value.description
       from_port        = ingress.value.port
       ipv6_cidr_blocks = []
       prefix_list_ids  = []
-      protocol         = "tcp"
+      protocol         = ingress.value.protocol
       security_groups  = []
       self             = false
       to_port          = ingress.value.port
