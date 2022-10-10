@@ -97,13 +97,13 @@ variable "web_ingress" {
       description = "port 80"
       port        = 80
       protocol    = "tcp"
-      cidr_block  = ["0.0.0.0/0"]
+      cidr_blocks  = ["0.0.0.0/0"]
     }
     "443" = {
       description = "port 443"
       port        = 443
       protocol    = "tcp"
-      cidr_block  = ["0.0.0.0/0"]
+      cidr_blocks  = ["0.0.0.0/0"]
     }
   }
 }
